@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,7 +30,6 @@ public class App {
                 try {
                     Post post = parsePostPage(element);
                     posts.add(post);
-                    System.out.println(post);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -36,6 +37,8 @@ public class App {
                 }
             }
         }
+
+        writeToFile(posts);
     }
 
     private static Post parsePostPage(Element element) throws URISyntaxException, IOException, ParseException {
@@ -62,5 +65,15 @@ public class App {
     private static List<String> getHabs(Elements elements) {
         return elements.stream().map(element -> Objects.requireNonNull(element.firstElementChild()).text())
                 .collect(Collectors.toList());
+    }
+
+    private static void writeToFile(List<Post> posts) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+            for (Post post : posts) {
+                writer.write(post.toString() + "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
