@@ -48,6 +48,9 @@ public class SimpleParser {
         writeToFile(posts);
     }
 
+    /*
+    * Parse post web page
+    * */
     private static Post parsePostPage(Element element) throws URISyntaxException, IOException, ParseException {
         String postURL = BASIC_URL + (element.attr("href"));
         Document postDocument = Jsoup.connect(postURL).get();
@@ -64,16 +67,25 @@ public class SimpleParser {
                 .setHabs(habs);
     }
 
+    /*
+    * Parse datetime attribute from html to Date java object
+    * */
     private static Date getDateFromDatetimeAttr(String datetime) throws ParseException {
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         return inFormat.parse(datetime);
     }
 
+    /*
+    * Collect all post habs (themes)
+    * */
     private static List<String> getHabs(Elements elements) {
         return elements.stream().map(element -> Objects.requireNonNull(element.firstElementChild()).text())
                 .collect(Collectors.toList());
     }
 
+    /*
+    * Write result to file
+    * */
     private static void writeToFile(List<Post> posts) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
             for (Post post : posts) {
