@@ -15,7 +15,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class Post {
     private URI url;
-    private String header;
+    private String title;
     private Date date;
     private String authorNickname;
     private List<String> habs;

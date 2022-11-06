@@ -58,7 +58,7 @@ public class SimpleParser {
         List<String> habs = getHabs(postDocument.getElementsByClass("tm-article-snippet__hubs-item-link"));
         return new Post()
                 .setUrl(new URI(postURL))
-                .setHeader(element.text())
+                .setTitle(element.text())
                 .setAuthorNickname(Objects.requireNonNull(postDocument
                         .getElementsByClass("tm-user-info__username").first()).text())
                 .setDate(date)
